@@ -6,7 +6,7 @@ LDFLAGS= -lncurses
 all: src/*.c
 	$(CC) $^ $(CFLAGS) $(LDFLAGS) -o bin/runMe
 
-test: src/file.c src/memory.c src/logo.c src/util.c src/parser.c tests/test.c
+test: src/rogue.c src/io.c src/graphics.c tests/test.c
 	$(CC) $^ $(CFLAGS) $(LDFLAGS) -o bin/test
 
 clean: 
