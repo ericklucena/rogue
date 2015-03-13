@@ -16,7 +16,7 @@ Furthermore, I certify that this assignment was prepared by me specifically for 
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-01-26 01:42:25
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-05 00:37:05
+* @Last Modified time: 2015-03-13 01:38:55
 * This file contains the implementation of the functions used by the libraries
 */
 

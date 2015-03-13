@@ -2,7 +2,7 @@
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:37:58
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-12 22:18:51
+* @Last Modified time: 2015-03-13 19:29:13
 */
 
 #include "io.h"
@@ -33,8 +33,8 @@ Level* readFile (char* filename)
     Room* room;
     Hero hero;
 
-    roomX = 1;
-    roomY = 1;
+    roomX = 2;
+    roomY = 2;
 
     level = newLevel(ROOMS_PER_LEVEL);
 
@@ -50,13 +50,13 @@ Level* readFile (char* filename)
 
         sscanf(argv[0],"%dX%d", &height, &width);
         printf("Size: %d\n", (roomIndex==0)?argc-2:argc-1);
-        room = newRoom(height+2, width+2, roomX, roomY, (roomIndex==0)?argc-2:argc-1);
+        room = newRoom(height+2, width+2, roomX+(25-height)/2, roomY+(30-width)/2, (roomIndex==0)?argc-2:argc-1);
         
         roomY += 30;
 
         if (roomY>90)
         {
-            roomY = 1;
+            roomY = 2;
             roomX += 25;
         }
 
@@ -109,6 +109,7 @@ Level* readFile (char* filename)
             case 'h':
                 sscanf(argv[i]+1,"%d,%d", &x, &y);
                 object.element = re_hero;
+                hero.inventoryIndex = 0;
                 hero.position.x = room->position.x + x;
                 hero.position.y = room->position.y + y;
                 level->hero = hero;
@@ -135,6 +136,7 @@ Level* readFile (char* filename)
 
             if (object.element != re_hero)
             {
+                object.marked = false;
                 room->objects[objectIndex++] = object;
             }
 

@@ -2,7 +2,7 @@
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-04 17:36:51
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-12 19:03:39
+* @Last Modified time: 2015-03-13 03:21:10
 */
 
 #include <ncurses.h>
@@ -59,7 +59,7 @@ void drawElement(int x, int y, RogueElement element)
         break;
 
     case re_magic:
-        mvaddch(x, y, '*');
+        mvaddch(x, y, '?');
         break;
 
     case re_hero:
@@ -81,6 +81,12 @@ void drawElement(int x, int y, RogueElement element)
     }
 }
 
+void drawMessage(Level* level)
+{
+    mvwprintw(stdscr, 0, 0, level->message);
+    level->message[0] = '\0';
+}
+
 void drawLevel (Level* level)
 {
     int i, j;
@@ -94,6 +100,7 @@ void drawLevel (Level* level)
     }
 
     drawElement(level->hero.position.x, level->hero.position.y, re_hero);
+    drawMessage(level);
     refresh();
 }
 
@@ -121,5 +128,4 @@ void getInput (Level* level)
         moveHero(level, d_right);
         break;
     }
-
 }
