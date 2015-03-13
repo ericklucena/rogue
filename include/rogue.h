@@ -2,7 +2,7 @@
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:36:16
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-05 00:23:52
+* @Last Modified time: 2015-03-12 18:57:25
 */
 
 #ifndef _ELUCENAP_ROGUEH
@@ -13,6 +13,7 @@
 #define MAX_NAME_SIZE 51
 #define MAX_DESCRIPTION_SIZE 51
 #define INVENTORY_SIZE 10
+#define ROOMS_PER_LEVEL 6
 
 #include <stdbool.h>
 
@@ -24,14 +25,14 @@ typedef struct position
 
 typedef enum direction
 {
-    up,
-    upRight,
-    right,
-    downRight,
-    down,
-    downLeft,
-    left,
-    upLeft
+    d_up,
+    d_upRight,
+    d_right,
+    d_downRight,
+    d_down,
+    d_downLeft,
+    d_left,
+    d_upLeft
 } Direction;
 
 typedef enum rogueElement
@@ -53,8 +54,8 @@ typedef enum rogueElement
 
 typedef struct object
 {
-    Position position;
     RogueElement element;
+    Position position;
 } Object;
 
 typedef struct item
@@ -74,8 +75,10 @@ typedef struct room
 {
 	int height;
 	int width;
-	Position position;
     bool visible;
+    Position position;
+    int nObjects;
+    Object* objects;
 } Room;
 
 typedef struct level
@@ -86,10 +89,11 @@ typedef struct level
     RogueElement** elements;
 } Level;
 
-Room* newRoom (int width, int height, int x, int y);
+Room* newRoom (int width, int height, int x, int y, int nObjects);
 void freeRoom (Room* room);
+void printRoom (Room* room);
 
-Level* newLevel (Hero hero, int nRooms);
+Level* newLevel (int nRooms);
 void freeLevel (Level* level);
 void initLevel (Level* level);
 

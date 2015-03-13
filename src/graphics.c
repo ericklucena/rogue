@@ -2,7 +2,7 @@
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-04 17:36:51
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-05 00:27:04
+* @Last Modified time: 2015-03-12 19:03:39
 */
 
 #include <ncurses.h>
@@ -75,13 +75,13 @@ void drawElement(int x, int y, RogueElement element)
         break;
 
     case re_monster:
-
+        mvaddch(x, y, 'M');
         break;
 
     }
 }
 
-void drawLevel(Level* level)
+void drawLevel (Level* level)
 {
     int i, j;
 
@@ -95,4 +95,31 @@ void drawLevel(Level* level)
 
     drawElement(level->hero.position.x, level->hero.position.y, re_hero);
     refresh();
+}
+
+void getInput (Level* level)
+{
+    char input;
+
+    input = getch();
+
+    switch (input)
+    {
+    case 'w':
+        moveHero(level, d_up);
+        break;
+
+    case 'a':
+        moveHero(level, d_left);
+        break;
+
+    case 's':
+        moveHero(level, d_down);
+        break;
+
+    case 'd':
+        moveHero(level, d_right);
+        break;
+    }
+
 }

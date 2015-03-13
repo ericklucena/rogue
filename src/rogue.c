@@ -2,14 +2,15 @@
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:39:03
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-05 00:18:22
+* @Last Modified time: 2015-03-12 18:58:08
 */
 
 #include "rogue.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-Room* newRoom (int height, int width, int x, int y)
+Room* newRoom (int height, int width, int x, int y, int nObjects)
 {
     Room *room;
 
@@ -21,32 +22,93 @@ Room* newRoom (int height, int width, int x, int y)
         room->width = width;
         room->position.x = x;
         room->position.y = y;
+        room->nObjects = nObjects;
+        room->objects = malloc(sizeof(Object)*nObjects);
+
+        if (room->objects == NULL)
+        {
+            fprintf(stderr, "Malloc error (Object) in newRoom\n");
+            free(room);
+            room = NULL;
+        }
     }
+    else
+    {
+        fprintf(stderr, "Malloc error (Room) in newRoom\n");
+    }
+
     return room;
+}
+
+const char* elementText(RogueElement element)
+{
+    char* text;
+    switch (element)
+    {
+    case re_door:
+        text = "door";
+        break;
+    case re_stairs:
+        text = "stairs";
+        break;
+    case re_gold:
+        text = "gold";
+        break;
+    case re_magic:
+        text = "magic";
+        break;
+    case re_hero:
+        text = "hero";
+        break;
+    case re_potion:
+        text = "potion";
+        break;
+    case re_weapon:
+        text = "weapon";
+        break;
+    case re_monster:
+        text = "monster";
+        break;
+    default:
+        break;
+    }
+
+    return text;
 }
 
 void freeRoom(Room* room)
 {
+    free(room->objects);
     free(room);
 }
 
-Level* newLevel (Hero hero, int nRooms)
+void printRoom(Room* room)
 {
     int i;
-    bool error;
+
+    printf("(%d, %d) %d x %d\n", room->position.x, room->position.y, room->height, room->width);
+
+    for (i=0; i<room->nObjects; i++)
+    {
+        printf("%s\n", elementText(room->objects[i].element));
+    }
+}
+
+Level* newLevel (int nRooms)
+{
+    int i;
+    bool error = false;
     Level* level;
 
     level = malloc(sizeof(Level));
 
     if (level != NULL)
     {
+        level->nRooms = nRooms;
         level->rooms = malloc(sizeof(Room*)*nRooms);
 
         if(level->rooms != NULL)
         {
-            level->hero = hero;
-            level->nRooms = nRooms;
-
             level->elements = malloc(sizeof(RogueElement*)*LEVEL_MAX_HEIGHT);
 
             if (level->elements != NULL)
@@ -58,6 +120,7 @@ Level* newLevel (Hero hero, int nRooms)
                     if (level->elements[i] == NULL)
                     {
                         error = true;
+                        fprintf(stderr, "Malloc error (RogueElement[]) in newLevel\n");
                         for (i-=1; i>=0; i--)
                         {
                             free(level->elements[i]);
@@ -68,21 +131,31 @@ Level* newLevel (Hero hero, int nRooms)
             }
             else
             {
+                fprintf(stderr, "Malloc error (RogueElement[][]) in newLevel\n");
                 free(level->rooms);
                 free(level);
+                level = NULL;
             }
             
             if (error)
             {
+                fprintf(stderr, "Malloc error (newLevel) in newLevel\n");
                 free(level->elements);
                 free(level->rooms);
                 free(level);
+                level = NULL;
             }
         }
         else
         {
+            fprintf(stderr, "Malloc error (Room) in newLevel\n");
             free(level);
+            level = NULL;
         }
+    }
+    else
+    {
+        fprintf(stderr, "Malloc error (Level) in newLevel\n");
     }
 
     return level;
@@ -101,10 +174,12 @@ void initLevel (Level* level)
 
     for (k=0; k<level->nRooms; k++)
     {
+        fprintf(stderr, "%d\n", level->nRooms);
         room = level->rooms[k];
-        for (i=0;i<level->rooms[k]->height; i++)
+
+        for (i=0;i<room->height; i++)
         {
-            for (j=0;j<level->rooms[k]->height; j++)
+            for (j=0;j<room->width; j++)
             {
                 level->elements[room->position.x+i][room->position.y+j] = re_floor;
             }
@@ -120,6 +195,11 @@ void initLevel (Level* level)
         {
             level->elements[room->position.x][room->position.y+i] = re_horizontal_wall;
             level->elements[room->position.x+room->height-1][room->position.y+i] = re_horizontal_wall;
+        }
+
+        for (i=0; i<room->nObjects; i++)
+        {
+            level->elements[room->position.x+room->objects[i].position.x][room->position.y+room->objects[i].position.y] = room->objects[i].element;
         }
 
     }
@@ -158,52 +238,52 @@ void moveHero(Level* level, Direction direction)
 
     switch (direction)
     {
-    case up:
+    case d_up:
         if(isWalkable(level->elements[level->hero.position.x-1][level->hero.position.y]))
         {
             level->hero.position.x -= 1;
         }
         break;
-    case upRight:
+    case d_upRight:
         if(isWalkable(level->elements[level->hero.position.x-1][level->hero.position.y+1]))
         {
             level->hero.position.x -= 1;
             level->hero.position.y += 1;   
         }
         break;
-    case right:
+    case d_right:
         if(isWalkable(level->elements[level->hero.position.x][level->hero.position.y+1]))
         {
             level->hero.position.y += 1;
         }
         break;
-    case downRight:
+    case d_downRight:
         if(isWalkable(level->elements[level->hero.position.x+1][level->hero.position.y+1]))
         {
             level->hero.position.x += 1;
             level->hero.position.y += 1;
         }
         break;
-    case down:
+    case d_down:
         if(isWalkable(level->elements[level->hero.position.x+1][level->hero.position.y]))
         {
             level->hero.position.x += 1;
         }
         break;
-    case downLeft:
+    case d_downLeft:
         if(isWalkable(level->elements[level->hero.position.x+1][level->hero.position.y-1]))
         {
             level->hero.position.x += 1;
             level->hero.position.y -= 1;
         }
         break;
-    case left:
+    case d_left:
         if(isWalkable(level->elements[level->hero.position.x][level->hero.position.y-1]))
         {
             level->hero.position.y -= 1;
         }
         break;
-    case upLeft:
+    case d_upLeft:
         if(isWalkable(level->elements[level->hero.position.x-1][level->hero.position.y-1]))
         {
             level->hero.position.x -= 1;
@@ -212,3 +292,4 @@ void moveHero(Level* level, Direction direction)
         break;
     }
 }
+
