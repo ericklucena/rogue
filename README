@@ -1,0 +1,49 @@
+Erick Lucena Palmeira Silva     #0905100
+
+CIS 2500 Assignment Two
+
+*****************************
+            ABOUT
+*****************************
+
+This program is a skim version of the Rogue game
+
+*****************************
+    COMPILING THE PROGRAM
+*****************************
+
+To compile this program type "make"
+
+*****************************
+    RUNNING THE PROGRAM
+*****************************
+
+To run the program type "./bin/runMe [room filename]"
+
+*****************************
+    USING THE PROGRAM
+*****************************
+
+To use this program, use the 'w', 'a', 's' and 'd' keys for movement and 'q' for quit.
+
+*****************************
+        RESTRICTIONS
+*****************************
+
+ - The turtle can't go out of the screen. If the user make an input that finishes outside the board, the turtle will stop at the border
+ - The max input is 90 characters (But there's no limit on the number of commands per line)
+
+
+*****************************
+          EXTRAS
+*****************************
+
+ - More than one command per line
+ - Relational operations
+ - Boolean operators
+ - Arithmetic operators
+ - Variable storing [bool, int, float, string] (make)
+ - Aproximation of any degree
+ - Load program from file (loadfile)
+ - setxy, st, ht, clean, print
+
