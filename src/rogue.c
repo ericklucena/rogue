@@ -1,8 +1,23 @@
+/****************************************rogue.c*********************************************
+Student Name: Erick Lucena Palmeira Silva    Student Number:  0905100-
+Date: 02/12/2015                             Course Name: cis2500
+I have exclusive control over this submission via my password.
+By including this statement in this header comment, I certify that:
+     1) I have read and understood the University policy on academic integrity;
+     2) I have completed the Computing with Integrity Tutorial on Moodle; and
+     3) I have achieved at least 80% in the Computing with Integrity Self Test.
+I assert that this work is my own. I have appropriately acknowledged any and all material
+(data, images, ideas or words) that I have used, whether directly quoted or paraphrased.
+Furthermore, I certify that this assignment was prepared by me specifically for this course.
+********************************************************************************************/
+
 /* 
+* CIS 2500 A3 Game functions implementation
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:39:03
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 19:59:22
+* @Last Modified time: 2015-03-13 21:16:42
+* This file contains the implementation of the game core fuctions
 */
 
 #include "rogue.h"
@@ -27,15 +42,10 @@ Room* newRoom (int height, int width, int x, int y, int nObjects)
         room->objects = malloc(sizeof(Object)*nObjects);
 
         if (room->objects == NULL)
-        {
-            //fprintf(stderr, "Malloc error (Object) in newRoom\n");
+        {            
             free(room);
             room = NULL;
         }
-    }
-    else
-    {
-        //fprintf(stderr, "Malloc error (Room) in newRoom\n");
     }
 
     return room;
@@ -108,7 +118,7 @@ Level* newLevel (int nRooms)
         level->nRooms = nRooms;
         level->rooms = malloc(sizeof(Room*)*nRooms);
 
-        if(level->rooms != NULL)
+        if (level->rooms != NULL)
         {
             level->elements = malloc(sizeof(RogueElement*)*LEVEL_MAX_HEIGHT);
 
@@ -121,7 +131,6 @@ Level* newLevel (int nRooms)
                     if (level->elements[i] == NULL)
                     {
                         error = true;
-                        //fprintf(stderr, "Malloc error (RogueElement[]) in newLevel\n");
                         for (i-=1; i>=0; i--)
                         {
                             free(level->elements[i]);
@@ -132,15 +141,13 @@ Level* newLevel (int nRooms)
             }
             else
             {
-                //fprintf(stderr, "Malloc error (RogueElement[][]) in newLevel\n");
                 free(level->rooms);
                 free(level);
                 level = NULL;
             }
             
             if (error)
-            {
-                //fprintf(stderr, "Malloc error (newLevel) in newLevel\n");
+            {                
                 free(level->elements);
                 free(level->rooms);
                 free(level);
@@ -148,15 +155,10 @@ Level* newLevel (int nRooms)
             }
         }
         else
-        {
-            //fprintf(stderr, "Malloc error (Room) in newLevel\n");
+        {            
             free(level);
             level = NULL;
         }
-    }
-    else
-    {
-        //fprintf(stderr, "Malloc error (Level) in newLevel\n");
     }
 
     return level;
@@ -174,8 +176,7 @@ void initLevel (Level* level)
     Room* room;
 
     for (k=0; k<level->nRooms; k++)
-    {
-        //fprintf(stderr, "%d\n", level->nRooms);
+    {        
         room = level->rooms[k];
 
         for (i=0;i<room->height; i++)
@@ -225,7 +226,7 @@ void initCorridors (Level* level)
 
         for (j=0; j<roomA->nObjects; j++)
         {
-            if(roomA->objects[j].element == re_door && !roomA->objects[j].marked)
+            if (roomA->objects[j].element == re_door && !roomA->objects[j].marked)
             {
                 roomA->objects[j].marked = true;
                 distance = LEVEL_MAX_WIDTH*LEVEL_MAX_HEIGHT;
@@ -240,7 +241,7 @@ void initCorridors (Level* level)
 
                     for (l=0; l<roomB->nObjects; l++)
                     {
-                        if(roomB->objects[l].element == re_door && !roomB->objects[l].marked)
+                        if (roomB->objects[l].element == re_door && !roomB->objects[l].marked)
                         {
                             if (calculateDistance(roomA->objects[j].position, roomB->objects[l].position) < distance)
                             {
@@ -250,9 +251,7 @@ void initCorridors (Level* level)
                             }
                         }
                     }
-                }
-                //fprintf(stderr, "CORRIDOR\n");
-                //fprintf(stderr, "(%d, %d) (%d, %d)\n", roomA->objects[j].position.x, roomA->objects[j].position.y, level->rooms[roomIndexB]->objects[objectIndexB].position.x, level->rooms[roomIndexB]->objects[objectIndexB].position.y);
+                }                                
                 createCorridor(level, roomA->objects[j].position, level->rooms[roomIndexB]->objects[objectIndexB].position);
                 level->rooms[roomIndexB]->objects[objectIndexB].marked = true;
             }
@@ -337,8 +336,7 @@ void createCorridor (Level* level, Position a, Position b)
             level->elements[a.x][a.y] = re_corridor;
         }
         else
-        {
-            //fprintf(stderr, "Cannot create corridor in createCorridor\n");
+        {            
             return;
         }
     }
@@ -431,52 +429,52 @@ void moveHero(Level* level, Direction direction)
     switch (direction)
     {
     case d_up:
-        if(isWalkable(level->elements[level->hero.position.x-1][level->hero.position.y]))
+        if (isWalkable(level->elements[level->hero.position.x-1][level->hero.position.y]))
         {
             level->hero.position.x -= 1;
         }
         break;
     case d_upRight:
-        if(isWalkable(level->elements[level->hero.position.x-1][level->hero.position.y+1]))
+        if (isWalkable(level->elements[level->hero.position.x-1][level->hero.position.y+1]))
         {
             level->hero.position.x -= 1;
             level->hero.position.y += 1;   
         }
         break;
     case d_right:
-        if(isWalkable(level->elements[level->hero.position.x][level->hero.position.y+1]))
+        if (isWalkable(level->elements[level->hero.position.x][level->hero.position.y+1]))
         {
             level->hero.position.y += 1;
         }
         break;
     case d_downRight:
-        if(isWalkable(level->elements[level->hero.position.x+1][level->hero.position.y+1]))
+        if (isWalkable(level->elements[level->hero.position.x+1][level->hero.position.y+1]))
         {
             level->hero.position.x += 1;
             level->hero.position.y += 1;
         }
         break;
     case d_down:
-        if(isWalkable(level->elements[level->hero.position.x+1][level->hero.position.y]))
+        if (isWalkable(level->elements[level->hero.position.x+1][level->hero.position.y]))
         {
             level->hero.position.x += 1;
         }
         break;
     case d_downLeft:
-        if(isWalkable(level->elements[level->hero.position.x+1][level->hero.position.y-1]))
+        if (isWalkable(level->elements[level->hero.position.x+1][level->hero.position.y-1]))
         {
             level->hero.position.x += 1;
             level->hero.position.y -= 1;
         }
         break;
     case d_left:
-        if(isWalkable(level->elements[level->hero.position.x][level->hero.position.y-1]))
+        if (isWalkable(level->elements[level->hero.position.x][level->hero.position.y-1]))
         {
             level->hero.position.y -= 1;
         }
         break;
     case d_upLeft:
-        if(isWalkable(level->elements[level->hero.position.x-1][level->hero.position.y-1]))
+        if (isWalkable(level->elements[level->hero.position.x-1][level->hero.position.y-1]))
         {
             level->hero.position.x -= 1;
             level->hero.position.y -= 1;
