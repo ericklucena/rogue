@@ -16,7 +16,7 @@ Furthermore, I certify that this assignment was prepared by me specifically for 
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:39:03
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 21:16:42
+* @Last Modified time: 2015-03-13 22:33:13
 * This file contains the implementation of the game core fuctions
 */
 
@@ -226,7 +226,7 @@ void initCorridors (Level* level)
 
         for (j=0; j<roomA->nObjects; j++)
         {
-            if (roomA->objects[j].element == re_door && !roomA->objects[j].marked)
+            if (roomA->objects[j].element == re_open_door && !roomA->objects[j].marked)
             {
                 roomA->objects[j].marked = true;
                 distance = LEVEL_MAX_WIDTH*LEVEL_MAX_HEIGHT;
@@ -241,7 +241,7 @@ void initCorridors (Level* level)
 
                     for (l=0; l<roomB->nObjects; l++)
                     {
-                        if (roomB->objects[l].element == re_door && !roomB->objects[l].marked)
+                        if (roomB->objects[l].element == re_open_door && !roomB->objects[l].marked)
                         {
                             if (calculateDistance(roomA->objects[j].position, roomB->objects[l].position) < distance)
                             {
@@ -266,6 +266,8 @@ void createCorridor (Level* level, Position a, Position b)
     int yDiff;
     bool moved;
     Direction preference[4];
+
+    level->elements[a.x][a.y] = re_door;
 
     while ((a.x != b.x) || (a.y != b.y))
     {
@@ -293,7 +295,7 @@ void createCorridor (Level* level, Position a, Position b)
             switch (preference[i])
             {
             case d_up:
-                if (level->elements[a.x-1][a.y] <= re_door)
+                if (level->elements[a.x-1][a.y] <= re_open_door)
                 {
                     a.x = a.x-1;
                     moved = true;
@@ -301,7 +303,7 @@ void createCorridor (Level* level, Position a, Position b)
                 break;
 
             case d_right:
-                if (level->elements[a.x][a.y+1] <= re_door)
+                if (level->elements[a.x][a.y+1] <= re_open_door)
                 {
                     a.y = a.y+1;
                     moved = true;
@@ -309,7 +311,7 @@ void createCorridor (Level* level, Position a, Position b)
                 break;
 
             case d_down:
-                if (level->elements[a.x+1][a.y] <= re_door)
+                if (level->elements[a.x+1][a.y] <= re_open_door)
                 {
                     a.x = a.x+1;
                     moved = true;
@@ -317,7 +319,7 @@ void createCorridor (Level* level, Position a, Position b)
                 break;
 
             case d_left:
-                if (level->elements[a.x-1][a.y] <= re_door)
+                if (level->elements[a.x][a.y-1] <= re_open_door)
                 {
                     a.y = a.y-1;
                     moved = true;
@@ -335,11 +337,14 @@ void createCorridor (Level* level, Position a, Position b)
         {
             level->elements[a.x][a.y] = re_corridor;
         }
-        else
+        
+        if (!moved)
         {            
             return;
         }
     }
+
+    level->elements[b.x][b.y] = re_door;
 }
 
 bool isWalkable (RogueElement element)
@@ -351,6 +356,7 @@ bool isWalkable (RogueElement element)
     case re_floor:
     case re_corridor:
     case re_door:
+    case re_open_door:
     case re_stairs:
     case re_gold:
     case re_magic:
@@ -385,6 +391,7 @@ bool isPickable (RogueElement element)
     case re_floor:
     case re_corridor:
     case re_door:
+    case re_open_door:
     case re_stairs:
     case re_hero:
     case re_blank:

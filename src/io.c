@@ -16,7 +16,7 @@ Furthermore, I certify that this assignment was prepared by me specifically for 
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:37:58
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 21:17:10
+* @Last Modified time: 2015-03-13 22:28:52
 * This file contains the implementation of the I/O fuctions
 */
 
@@ -77,7 +77,7 @@ Level* readFile (char* filename)
             switch (argv[i][0])
             {
             case 'd':
-                object.element = re_door;
+                object.element = re_open_door;
                 sscanf(argv[i]+2, "%d", &x);
                 switch (argv[i][1])
                 {

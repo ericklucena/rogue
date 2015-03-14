@@ -2,7 +2,7 @@
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:36:16
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 20:53:22
+* @Last Modified time: 2015-03-13 22:25:58
 */
 
 #ifndef _ELUCENAP_ROGUEH
@@ -39,8 +39,9 @@ typedef enum direction
 typedef enum rogueElement
 {
 	re_blank,
-    re_corridor,
+    re_open_door,
     re_door,
+    re_corridor,
     re_vertical_wall,
     re_horizontal_wall,
     re_floor,

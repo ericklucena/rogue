@@ -16,7 +16,7 @@ Furthermore, I certify that this assignment was prepared by me specifically for 
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-04 17:36:51
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 21:17:32
+* @Last Modified time: 2015-03-13 22:27:12
 * This file contains the implementation of the game graphic fuctions
 */
 
@@ -57,6 +57,7 @@ void drawElement(int x, int y, RogueElement element)
         break;
 
     case re_door:
+    case re_open_door:
         mvaddch(x, y, '+');
         break;
 
