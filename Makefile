@@ -1,7 +1,7 @@
 CC=gcc
 CPPFLAGS=
-CFLAGS= -std=c99 -Wall -pedantic -Iinclude -lm -g
-LDFLAGS= -lncurses
+CFLAGS= -std=c99 -Wall -pedantic -Iinclude -g
+LDFLAGS= -lncurses -lm
 
 all: src/*.c
 	$(CC) $^ $(CFLAGS) $(LDFLAGS) -o bin/runMe

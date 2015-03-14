@@ -2,7 +2,7 @@
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:36:16
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 03:03:37
+* @Last Modified time: 2015-03-13 19:54:51
 */
 
 #ifndef _ELUCENAP_ROGUEH
@@ -70,9 +70,7 @@ typedef struct item
 typedef struct hero
 {
 	Position position;
-    int inventoryIndex;
-    //Item inventory[INVENTORY_SIZE];
-	RogueElement inventory[INVENTORY_SIZE];
+	int inventory[4];
 } Hero;
 
 typedef struct room

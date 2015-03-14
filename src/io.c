@@ -2,7 +2,7 @@
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:37:58
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 19:29:13
+* @Last Modified time: 2015-03-13 20:03:12
 */
 
 #include "io.h"
@@ -44,12 +44,12 @@ Level* readFile (char* filename)
     {
         objectIndex = 0;
 
-        printf("line: %s\n", buffer);
+        //printf("line: %s\n", buffer);
         argv = parseLine(buffer, &argc);
-        printf("Argc: %d\n", argc);
+        //printf("Argc: %d\n", argc);
 
         sscanf(argv[0],"%dX%d", &height, &width);
-        printf("Size: %d\n", (roomIndex==0)?argc-2:argc-1);
+        //printf("Size: %d\n", (roomIndex==0)?argc-2:argc-1);
         room = newRoom(height+2, width+2, roomX+(25-height)/2, roomY+(30-width)/2, (roomIndex==0)?argc-2:argc-1);
         
         roomY += 30;
@@ -109,7 +109,10 @@ Level* readFile (char* filename)
             case 'h':
                 sscanf(argv[i]+1,"%d,%d", &x, &y);
                 object.element = re_hero;
-                hero.inventoryIndex = 0;
+                hero.inventory[0] = 0;
+                hero.inventory[1] = 0;
+                hero.inventory[2] = 0;
+                hero.inventory[3] = 0;
                 hero.position.x = room->position.x + x;
                 hero.position.y = room->position.y + y;
                 level->hero = hero;
@@ -142,7 +145,7 @@ Level* readFile (char* filename)
 
         }
         level->rooms[roomIndex++] = room;
-        printRoom(room);
+        //printRoom(room);
         freeArgs(argv, argc);
 
     }

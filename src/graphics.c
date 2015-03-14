@@ -2,7 +2,7 @@
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-04 17:36:51
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 03:21:10
+* @Last Modified time: 2015-03-13 20:04:14
 */
 
 #include <ncurses.h>
@@ -104,7 +104,7 @@ void drawLevel (Level* level)
     refresh();
 }
 
-void getInput (Level* level)
+bool getInput (Level* level)
 {
     char input;
 
@@ -127,5 +127,11 @@ void getInput (Level* level)
     case 'd':
         moveHero(level, d_right);
         break;
+
+    case 'q':
+        return false;
+        break;
     }
+
+    return true;
 }

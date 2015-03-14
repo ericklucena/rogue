@@ -2,7 +2,7 @@
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:39:03
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 19:35:21
+* @Last Modified time: 2015-03-13 19:59:22
 */
 
 #include "rogue.h"
@@ -400,6 +400,31 @@ bool isPickable (RogueElement element)
     return walkable;
 }
 
+void pickItem (Level* level, RogueElement element)
+{
+    switch (element)
+    {
+        case re_magic:
+            level->hero.inventory[0]++;
+            break;
+
+        case re_potion:
+            level->hero.inventory[1]++;
+            break;
+
+        case re_gold:
+            level->hero.inventory[2]++;
+            break;
+
+        case re_weapon:
+            level->hero.inventory[3]++;
+            break;
+
+        default:
+            break;
+    }
+}
+
 void moveHero(Level* level, Direction direction)
 {
 
@@ -462,7 +487,7 @@ void moveHero(Level* level, Direction direction)
     if (isPickable(level->elements[level->hero.position.x][level->hero.position.y]))
     {
         sprintf(level->message, "You found a %s", elementText(level->elements[level->hero.position.x][level->hero.position.y]));
-        level->hero.inventory[level->hero.inventoryIndex++] = level->elements[level->hero.position.x][level->hero.position.y];
+        pickItem(level, level->elements[level->hero.position.x][level->hero.position.y]);
         level->elements[level->hero.position.x][level->hero.position.y] = re_floor;
     }
 }
