@@ -1,0 +1,14 @@
+The testing was done using the files that can be found in the "assets" folder.
+
+Testing 1: room.txt
+
+    Simple file, where the door are very close to each other.
+
+Testing 2: roomOutsideItem.txt
+    
+    File that contains a monster outside the room. The monster must be discarded.
+
+Testing 3:
+
+    File that contains a door pair that are far from each other. Designed to challenge the corridor algorithm.
+
