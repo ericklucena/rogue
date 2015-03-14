@@ -16,7 +16,7 @@ Furthermore, I certify that this assignment was prepared by me specifically for 
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:37:58
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 22:28:52
+* @Last Modified time: 2015-03-13 22:45:18
 * This file contains the implementation of the I/O fuctions
 */
 
@@ -101,50 +101,71 @@ Level* readFile (char* filename)
                 break;
             case 's':
                 sscanf(argv[i]+1,"%d,%d", &x, &y);
-                object.element = re_stairs;
-                object.position.x = x;
-                object.position.y = y;
+                if (x>=0 && x<room->height && y>0 && y<room->width )
+                {
+                    object.element = re_stairs;
+                    object.position.x = x;
+                    object.position.y = y;
+                }
                 break;
             case 'g':
                 sscanf(argv[i]+1,"%d,%d", &x, &y);
-                object.element = re_gold;
-                object.position.x = x;
-                object.position.y = y;
+                if (x>=0 && x<room->height && y>0 && y<room->width )
+                {
+                    object.element = re_gold;
+                    object.position.x = x;
+                    object.position.y = y;
+                }
                 break;
             case 'm':
                 sscanf(argv[i]+1,"%d,%d", &x, &y);
-                object.element = re_magic;
-                object.position.x = x;
-                object.position.y = y;
+                if (x>=0 && x<room->height && y>0 && y<room->width )
+                {
+                    object.element = re_magic;
+                    object.position.x = x;
+                    object.position.y = y;
+                }
                 break;
             case 'h':
                 sscanf(argv[i]+1,"%d,%d", &x, &y);
-                object.element = re_hero;
-                hero.inventory[0] = 0;
-                hero.inventory[1] = 0;
-                hero.inventory[2] = 0;
-                hero.inventory[3] = 0;
-                hero.position.x = room->position.x + x;
-                hero.position.y = room->position.y + y;
-                level->hero = hero;
+                if (x>=0 && x<room->height && y>0 && y<room->width )
+                {
+                    object.element = re_hero;
+                    hero.inventory[0] = 0;
+                    hero.inventory[1] = 0;
+                    hero.inventory[2] = 0;
+                    hero.inventory[3] = 0;
+                    hero.position.x = room->position.x + x;
+                    hero.position.y = room->position.y + y;
+                    level->hero = hero;
+                }
                 break;
             case 'p':
                 sscanf(argv[i]+1,"%d,%d", &x, &y);
-                object.element = re_potion;
-                object.position.x = x;
-                object.position.y = y;
+                if (x>=0 && x<room->height && y>0 && y<room->width )
+                {
+                    object.element = re_potion;
+                    object.position.x = x;
+                    object.position.y = y;
+                }
                 break;
             case 'w':
                 sscanf(argv[i]+1,"%d,%d", &x, &y);
-                object.element = re_weapon;
-                object.position.x = x;
-                object.position.y = y;
+                if (x>=0 && x<room->height && y>0 && y<room->width )
+                {
+                    object.element = re_weapon;
+                    object.position.x = x;
+                    object.position.y = y;
+                }
                 break;
             case 'M':
                 sscanf(argv[i]+1,"%d,%d", &x, &y);
-                object.element = re_monster;
-                object.position.x = x;
-                object.position.y = y;
+                if (x>=0 && x<room->height && y>0 && y<room->width )
+                {
+                    object.element = re_monster;
+                    object.position.x = x;
+                    object.position.y = y;
+                }
                 break;
             }
 

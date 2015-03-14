@@ -16,7 +16,7 @@ Furthermore, I certify that this assignment was prepared by me specifically for 
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 15:39:03
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 22:33:13
+* @Last Modified time: 2015-03-13 22:52:41
 * This file contains the implementation of the game core fuctions
 */
 
@@ -166,6 +166,18 @@ Level* newLevel (int nRooms)
 
 void freeLevel (Level* level)
 {
+    int i;
+
+    for (i=0; i<ROOMS_PER_LEVEL; i++){
+        freeRoom(level->rooms[i]);
+    }
+
+    for (i=0; i<LEVEL_MAX_HEIGHT; i++)
+    {
+        free(level->elements[i]);
+    }
+    
+    free(level->elements);
     free(level->rooms);
     free(level);
 }

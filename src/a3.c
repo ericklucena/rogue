@@ -16,7 +16,7 @@ Furthermore, I certify that this assignment was prepared by me specifically for 
 * @Author: Erick Lucena Palmeira Silva
 * @Date:   2015-03-02 14:52:32
 * @Last Modified by:   Erick Lucena Palmeira Silva
-* @Last Modified time: 2015-03-13 21:17:25
+* @Last Modified time: 2015-03-13 22:47:31
 * This file contains the implementation of the main fuction
 */
 
@@ -45,6 +45,8 @@ int main (int argc, char** argv) {
     printf("You found %d potions.\n", level->hero.inventory[1]);
     printf("You found %d gold pieces.\n", level->hero.inventory[2]);
     printf("You found %d weapons.\n", level->hero.inventory[3]);
+
+    freeLevel(level);
 
     return 0;
 }
